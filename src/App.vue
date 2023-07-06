@@ -119,24 +119,54 @@ export default {
     this.loadLocalStorage()
     // setInterval(this.saveLocalStorage, 10000)
     // if url has ?key=....then set the api key to this value
-   
+    var root = this;
     // load the default.json file 
     axios.get('default.json').then(response => {
       this.elements = response.data.elements
       this.settings = response.data.settings
       this.share = response.data.share
-    }).catch(function (error) {
+    }).then(function (res){
+
+      const urlParams = new URLSearchParams(window.location.search);
+      var key = urlParams.get('key');
+      if(key){ 
+        root.settings.api_key = key; 
+        console.log("set api key", root.settings.api_key) 
+      }
+
+      // show the settings modal on launch
+      if(root.settings.api_key === ''){
+        root.settings.is_visible = true;
+      }
+      if(root.settings.project_name === ''){
+        root.settings.project_name = root.makeProjectTitle()
+      }
+      root.settings.created_at = new Date()
+      root.settings.updated_at = new Date()
+      
+    })
+    .catch(function (error) {
       console.log(error);
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    var key = urlParams.get('key');
-    if(key){ 
-      this.settings.api_key = key; 
-      console.log("set api key", this.settings.api_key) 
-    }
   },
   methods: {
+    makeProjectTitle(){
+      var words = [
+        'cat', 'summer', 'french', 'powder', 'whiskey', 'sunset', 
+        'ocean', 'autumn', 'never', 'soon', 'dreamboat', 'fun',
+        'laughter', 'mountain', 'candle', 'breeze', 'delicious', 
+        'moonlight', 'chocolate', 'paradise', 'harmony', 'adventure', 
+        'serenade', 'jubilant', 'melody', 'blissful', 'serendipity', 
+        'enchanted', 'wanderlust', 'sparkle', 'crimson', 'fireworks', 
+        'velvet', 'giggles', 'pizza', 'sugar', 'sunshine', 'rainbow']
+      var select_three = []
+      for (let i = 0; i < 3; i++) {
+        var index = Math.floor(Math.random() * words.length);
+        select_three.push(words[index])
+      }
+      return select_three.join('-')
+    },
     connector(params){
       console.log(params) // {source:num, target:num}
       if (params.source === params.target) {return false } 

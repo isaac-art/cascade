@@ -1,6 +1,6 @@
 # cascade
 
-https://cascade.humanity.tools - a stable diffusion prompt-tree tool
+https://cascade.thanks.fish/ - a stable diffusion prompt-tree tool
 
 
 <img width="801" alt="Screenshot 2023-07-06 at 16 02 14" src="https://github.com/isaac-art/cascade/assets/5353074/834698fd-0ff0-4b38-9637-8116eede4ca7">

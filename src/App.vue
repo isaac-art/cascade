@@ -119,9 +119,7 @@ export default {
     this.loadLocalStorage()
     // setInterval(this.saveLocalStorage, 10000)
     // if url has ?key=....then set the api key to this value
-    const urlParams = new URLSearchParams(window.location.search);
-    const key = urlParams.get('key');
-    if(key){ this.settings.api_key = key; console.log("set api key", this.settings.api_key) }
+   
     // load the default.json file 
     axios.get('default.json').then(response => {
       this.elements = response.data.elements
@@ -130,6 +128,13 @@ export default {
     }).catch(function (error) {
       console.log(error);
     });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    var key = urlParams.get('key');
+    if(key){ 
+      this.settings.api_key = key; 
+      console.log("set api key", this.settings.api_key) 
+    }
   },
   methods: {
     connector(params){

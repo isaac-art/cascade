@@ -1,0 +1,75 @@
+{
+    "settings": {
+        "is_visible": false,
+        "api_key": "",
+        "project_name": "",
+        "created_at": "",
+        "updated_at": "",
+        "engine_id": "stable-diffusion-xl-beta-v2-2-2"
+    },
+    "elements": [
+        {
+            "type": "prompt",
+            "dimensions": {
+                "width": 224,
+                "height": 102
+            },
+            "handleBounds": {
+                "source": [
+                    {
+                        "id": "1__handle-bottom",
+                        "position": "bottom",
+                        "x": 102,
+                        "y": 96,
+                        "width": 20,
+                        "height": 10
+                    }
+                ],
+                "target": [
+                    {
+                        "id": "1__handle-top",
+                        "position": "top",
+                        "x": 102,
+                        "y": -4,
+                        "width": 20,
+                        "height": 10
+                    }
+                ]
+            },
+            "computedPosition": {
+                "x": 400,
+                "y": 40,
+                "z": 0
+            },
+            "selected": false,
+            "dragging": false,
+            "resizing": false,
+            "initialized": true,
+            "data": {
+                "flag": ""
+            },
+            "events": {},
+            "id": "1",
+            "label": "prompt 1",
+            "position": {
+                "x": 400,
+                "y": 40
+            }
+        }
+    ],
+    "share": {
+        "users": [
+            {
+                "email": "123@demo.com",
+                "active": false
+            },
+            {
+                "email": "1321@demo.com",
+                "active": false
+            }
+        ],
+        "use_password": false,
+        "password": "",
+        "is_visible": false
+    }
+}

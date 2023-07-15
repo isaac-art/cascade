@@ -2,6 +2,7 @@
   <div id="app">
     <VueFlow 
       v-model="elements" 
+      @drop="dropImage"
       :default-zoom="1"
       :max-zoom="2"
       :min-zoom="0.5"
@@ -150,7 +151,59 @@ export default {
     });
 
   },
+  created() {
+    window.addEventListener('dragover', (e) => { e.preventDefault(); }, false);
+    window.addEventListener('drop', (e) => { e.preventDefault(); }, false);
+  },
   methods: {
+    dropImage(e){
+      e.preventDefault()
+      console.log("dropping ")
+      // Check if any files were dropped
+      if (e.dataTransfer.items) {
+        for (let i = 0; i < e.dataTransfer.items.length; i++) {
+          // If the dropped items are files, handle them
+          if (e.dataTransfer.items[i].kind === 'file') {
+            let file = e.dataTransfer.items[i].getAsFile();
+            
+            // Check if the file is an image
+            if (file.type.startsWith('image/')) {
+              let pos = { x: e.clientX, y: e.clientY }
+              this.contextMenu.is_visible = false;
+              // unselect any other node
+              this.elements.forEach(el => { el.selected = false })
+              
+              // add new node
+              let reader = new FileReader();
+              reader.onloadend = () => {
+                let img = new Image();
+                img.onload = () => {
+                  let canvas = document.createElement('canvas');
+                  let ctx = canvas.getContext('2d');
+                  canvas.width = Math.round(img.width / 64) * 64; // make it multiple of 64
+                  canvas.height = Math.round(img.height / 64) * 64; // make it multiple of 64
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                  let base64 = canvas.toDataURL(); // this is the base64 encoded and resized image
+
+                  this.elements.push({
+                    id: `${this.largestNodeID+1}`,
+                    label: `image ${this.largestNodeID+1}`,
+                    type: 'image',
+                    position: pos,
+                    data: {"src": base64 , "alt": 'uploaded file'},
+                    selected: true
+                  })
+                };
+                img.src = reader.result;
+              }
+              reader.readAsDataURL(file);
+            }
+          }
+        }
+      }
+
+    },
     makeProjectTitle(){
       var words = [
         'cat', 'summer', 'french', 'powder', 'whiskey', 'sunset', 
